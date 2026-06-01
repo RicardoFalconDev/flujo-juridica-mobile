@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación | FID by Lakaut</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    :root {
+      --blue:        #2A39D0;
+      --text-dark:   #0b0c0e;
+      --text-main:   #3b3a45;
+      --text-sub:    #575768;
+      --border:      #e1e1eb;
+      --border-card: #dee2e6;
+      --border-hdr:  #f2f2f8;
+      --bg-page:     #f8f9fa;
+      --bg-drop:     #fcfcfd;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+    }
+
+    .icon {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      white-space: nowrap;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* ─── PAGE ───────────────────────────────────────── */
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    .header {
+      height: 80px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-hdr);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo { width: 46px; height: 32px; object-fit: contain; flex-shrink: 0; }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-main);
+    }
+
+    .icon-btn .icon { font-size: 20px; }
+
+    .header-title {
+      flex: 1;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--text-main);
+      font-feature-settings: "lnum" 1, "tnum" 1;
+    }
+
+    /* ─── CONTENT ────────────────────────────────────── */
+    .content-area {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ─── CARD ───────────────────────────────────────── */
+    .main-card {
+      width: 600px;
+      background: #fff;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Title */
+    .title-section { display: flex; flex-direction: column; gap: 8px; }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 28px;
+      color: var(--text-dark);
+    }
+
+    .card-subtitle {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-sub);
+      letter-spacing: 0.1px;
+      font-feature-settings: "lnum" 1, "tnum" 1;
+    }
+
+    /* ─── FORM ───────────────────────────────────────── */
+    .drop-zones {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ─── DROP ZONE ──────────────────────────────────── */
+    .drop-field { display: flex; flex-direction: column; gap: 8px; }
+
+    .drop-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .drop-label-text {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-main);
+      letter-spacing: 0.1px;
+      font-feature-settings: "lnum" 1, "tnum" 1;
+    }
+
+    .info-icon {
+      font-size: 16px;
+      color: #aab0c0;
+      cursor: default;
+    }
+
+    /* Drop area */
+    .drop-area {
+      background: var(--bg-drop);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: border-color .2s, background .2s;
+      cursor: default;
+    }
+
+    .drop-area.dragover {
+      border-color: var(--blue);
+      background: #f0f2ff;
+      border-style: solid;
+    }
+
+    /* Drop area con archivo (loading o loaded): borde sólido, fondo blanco, alineación fila */
+    .drop-area.has-file {
+      border-style: solid;
+      border-color: var(--border);
+      background: #fff;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .drop-hint {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-sub);
+      text-align: center;
+      letter-spacing: 0.1px;
+      font-feature-settings: "lnum" 1, "tnum" 1;
+    }
+
+    /* Botón "Cargar archivo" */
+    .btn-upload {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-upload:hover { background: #f5f5f7; }
+
+    .btn-upload span.label {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-main);
+      letter-spacing: 0.1px;
+      font-feature-settings: "lnum" 1, "tnum" 1;
+    }
+
+    .btn-upload .icon { font-size: 16px; color: var(--text-main); }
+
+    /* ─── FILA DE ARCHIVO (loading + loaded) ─────────── */
+    .file-row {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .file-row.visible { display: flex; }
+
+    /* Ícono izquierdo (file o check) */
+    .file-row-icon { flex-shrink: 0; font-size: 20px; }
+    .file-row-icon.loading { color: #aab0c0; }
+    .file-row-icon.done    { color: #22c55e; }
+
+    /* Info central */
+    .file-row-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .file-row-name {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Barra de progreso (solo en loading) */
+    .file-progress-wrap {
+      width: 100%;
+      height: 4px;
+      background: #e8e8ee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .file-progress-bar {
+      height: 100%;
+      background: #22c55e;
+      border-radius: 4px;
+      width: 0%;
+      transition: width .1s linear;
+    }
+
+    .file-loading-text {
+      font-size: 12px;
+      color: var(--text-ph);
+      line-height: 16px;
+    }
+
+    /* Texto "Archivo cargado" (solo en loaded) */
+    .file-done-text {
+      font-size: 12px;
+      color: #22c55e;
+      line-height: 16px;
+      display: none;
+    }
+
+    /* Botón quitar */
+    .btn-remove {
+      flex-shrink: 0;
+      color: #aab0c0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: color .15s;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .btn-remove:hover { color: #ef4444; }
+    .btn-remove .icon { font-size: 20px; }
+
+    /* ─── ESTADO ERROR ──────────────────────────────── */
+    .drop-area.error {
+      border-style: solid;
+      border-color: #ef4444;
+      background: #fff5f5;
+    }
+
+    .drop-error-msg {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #ef4444;
+      line-height: 18px;
+    }
+
+    .drop-error-msg.visible { display: flex; }
+    .drop-error-msg .icon   { font-size: 16px; flex-shrink: 0; }
+    .drop-error-file        { font-weight: 600; }
+
+    /* Input file oculto */
+    .file-input { display: none; }
+
+    /* ─── BOTONES FONDO ──────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .btn-back {
+      flex: 1;
+      height: 48px;
+      background: #fff;
+      border: 1px solid #e1e1e6;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      transition: background .15s;
+    }
+
+    .btn-back:hover { background: #f5f5f7; }
+
+    .btn-back span {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #494949;
+    }
+
+    .btn-continue {
+      flex: 1;
+      height: 48px;
+      background: #e1e1e6;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      transition: background .15s;
+      pointer-events: none;
+    }
+
+    .btn-continue.active {
+      background: var(--blue);
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .btn-continue.active:hover { opacity: .9; }
+
+    .btn-continue span {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #939393;
+    }
+
+    .btn-continue.active span { color: #fff; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <img class="header-logo"
+         src="https://www.figma.com/api/mcp/asset/f419695b-9c40-4cf1-8c13-87318dc06d4c"
+         alt="FID by Lakaut"
+         width="55" height="38" />
+    <button class="icon-btn" onclick="history.back()" aria-label="Volver">
+      <span class="icon">arrow_back</span>
+    </button>
+    <span class="header-title">Documentación</span>
+    <button class="icon-btn" aria-label="Cerrar">
+      <span class="icon">close</span>
+    </button>
+  </header>
+
+  <!-- ── CONTENT ── -->
+  <main class="content-area">
+    <div class="main-card">
+
+      <div class="title-section">
+        <h2 class="card-title">Adjuntá la documentación</h2>
+        <p class="card-subtitle">Formatos permitidos: PDF o JPG/PNG hasta 50mb</p>
+      </div>
+
+      <div class="drop-zones">
+
+        <!-- Acta constitutiva -->
+        <div class="drop-field">
+          <div class="drop-label">
+            <span class="drop-label-text">Acta constitutiva</span>
+            <span class="icon info-icon" title="Documento que formaliza la creación de la empresa">info</span>
+          </div>
+          <div class="drop-area" id="drop-0" ondragover="onDragOver(event,0)" ondragleave="onDragLeave(0)" ondrop="onDrop(event,0)">
+            <p class="drop-hint">Arrastrá y soltá tu archivo aquí o presioná el botón "Cargar archivo".</p>
+            <button class="btn-upload" onclick="triggerFile(0)">
+              <span class="label">Cargar archivo</span>
+              <span class="icon">upload</span>
+            </button>
+            <div class="file-row" id="frow-0">
+              <span class="icon file-row-icon loading" id="ficon-0">insert_drive_file</span>
+              <div class="file-row-info">
+                <span class="file-row-name" id="fname-0"></span>
+                <div class="file-progress-wrap" id="fpwrap-0">
+                  <div class="file-progress-bar" id="fpbar-0"></div>
+                </div>
+                <span class="file-loading-text" id="floading-0">Cargando archivo...</span>
+                <span class="file-done-text" id="fdone-0">Archivo cargado</span>
+              </div>
+              <button class="btn-remove" onclick="removeFile(0)" aria-label="Quitar">
+                <span class="icon">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="drop-error-msg" id="ferror-0"><span class="icon">error</span><span id="ferror-text-0"></span></div>
+          <input class="file-input" id="file-0" type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileSelect(event,0)" />
+        </div>
+
+        <!-- Poder -->
+        <div class="drop-field">
+          <div class="drop-label">
+            <span class="drop-label-text">Poder</span>
+            <span class="icon info-icon" title="Documento que acredita la representación legal">info</span>
+          </div>
+          <div class="drop-area" id="drop-1" ondragover="onDragOver(event,1)" ondragleave="onDragLeave(1)" ondrop="onDrop(event,1)">
+            <p class="drop-hint">Arrastrá y soltá tu archivo aquí o presioná el botón "Cargar archivo".</p>
+            <button class="btn-upload" onclick="triggerFile(1)">
+              <span class="label">Cargar archivo</span>
+              <span class="icon">upload</span>
+            </button>
+            <div class="file-row" id="frow-1">
+              <span class="icon file-row-icon loading" id="ficon-1">insert_drive_file</span>
+              <div class="file-row-info">
+                <span class="file-row-name" id="fname-1"></span>
+                <div class="file-progress-wrap" id="fpwrap-1">
+                  <div class="file-progress-bar" id="fpbar-1"></div>
+                </div>
+                <span class="file-loading-text" id="floading-1">Cargando archivo...</span>
+                <span class="file-done-text" id="fdone-1">Archivo cargado</span>
+              </div>
+              <button class="btn-remove" onclick="removeFile(1)" aria-label="Quitar">
+                <span class="icon">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="drop-error-msg" id="ferror-1"><span class="icon">error</span><span id="ferror-text-1"></span></div>
+          <input class="file-input" id="file-1" type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileSelect(event,1)" />
+        </div>
+
+        <!-- Designación de cargos -->
+        <div class="drop-field">
+          <div class="drop-label">
+            <span class="drop-label-text">Designación de cargos</span>
+            <span class="icon info-icon" title="Documento que designa a los responsables de la empresa">info</span>
+          </div>
+          <div class="drop-area" id="drop-2" ondragover="onDragOver(event,2)" ondragleave="onDragLeave(2)" ondrop="onDrop(event,2)">
+            <p class="drop-hint">Arrastrá y soltá tu archivo aquí o presioná el botón "Cargar archivo".</p>
+            <button class="btn-upload" onclick="triggerFile(2)">
+              <span class="label">Cargar archivo</span>
+              <span class="icon">upload</span>
+            </button>
+            <div class="file-row" id="frow-2">
+              <span class="icon file-row-icon loading" id="ficon-2">insert_drive_file</span>
+              <div class="file-row-info">
+                <span class="file-row-name" id="fname-2"></span>
+                <div class="file-progress-wrap" id="fpwrap-2">
+                  <div class="file-progress-bar" id="fpbar-2"></div>
+                </div>
+                <span class="file-loading-text" id="floading-2">Cargando archivo...</span>
+                <span class="file-done-text" id="fdone-2">Archivo cargado</span>
+              </div>
+              <button class="btn-remove" onclick="removeFile(2)" aria-label="Quitar">
+                <span class="icon">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="drop-error-msg" id="ferror-2"><span class="icon">error</span><span id="ferror-text-2"></span></div>
+          <input class="file-input" id="file-2" type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileSelect(event,2)" />
+        </div>
+
+        <!-- Ultima acta de asamblea -->
+        <div class="drop-field">
+          <div class="drop-label">
+            <span class="drop-label-text">Ultima acta de asamblea</span>
+            <span class="icon info-icon" title="Resoluciones de la última asamblea de socios">info</span>
+          </div>
+          <div class="drop-area" id="drop-3" ondragover="onDragOver(event,3)" ondragleave="onDragLeave(3)" ondrop="onDrop(event,3)">
+            <p class="drop-hint">Arrastrá y soltá tu archivo aquí o presioná el botón "Cargar archivo".</p>
+            <button class="btn-upload" onclick="triggerFile(3)">
+              <span class="label">Cargar archivo</span>
+              <span class="icon">upload</span>
+            </button>
+            <div class="file-row" id="frow-3">
+              <span class="icon file-row-icon loading" id="ficon-3">insert_drive_file</span>
+              <div class="file-row-info">
+                <span class="file-row-name" id="fname-3"></span>
+                <div class="file-progress-wrap" id="fpwrap-3">
+                  <div class="file-progress-bar" id="fpbar-3"></div>
+                </div>
+                <span class="file-loading-text" id="floading-3">Cargando archivo...</span>
+                <span class="file-done-text" id="fdone-3">Archivo cargado</span>
+              </div>
+              <button class="btn-remove" onclick="removeFile(3)" aria-label="Quitar">
+                <span class="icon">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="drop-error-msg" id="ferror-3"><span class="icon">error</span><span id="ferror-text-3"></span></div>
+          <input class="file-input" id="file-3" type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileSelect(event,3)" />
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="btn-row">
+        <button class="btn-back" onclick="history.back()">
+          <span>Volver</span>
+        </button>
+        <button class="btn-continue" id="btn-continue" onclick="continuar()">
+          <span>Continuar</span>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+  const uploaded = [false, false, false, false];
+
+  function triggerFile(i) {
+    document.getElementById('file-' + i).click();
+  }
+
+  function startUpload(i, filename) {
+    const drop   = document.getElementById('drop-' + i);
+    const frow   = document.getElementById('frow-' + i);
+    const fname  = document.getElementById('fname-' + i);
+    const fpbar  = document.getElementById('fpbar-' + i);
+
+    // Ocultar hint + botón, mostrar fila
+    drop.classList.add('has-file');
+    drop.querySelector('.drop-hint').style.display = 'none';
+    drop.querySelector('.btn-upload').style.display = 'none';
+    frow.classList.add('visible');
+    fname.textContent = filename;
+
+    // Animar barra de progreso de 0 → 100% en 1.4 s
+    let pct = 0;
+    fpbar.style.width = '0%';
+    const interval = setInterval(() => {
+      pct += Math.random() * 18 + 8;
+      if (pct >= 100) {
+        pct = 100;
+        clearInterval(interval);
+        finishUpload(i);
+      }
+      fpbar.style.width = pct + '%';
+    }, 120);
+  }
+
+  function finishUpload(i) {
+    uploaded[i] = true;
+
+    const ficon    = document.getElementById('ficon-' + i);
+    const fpwrap   = document.getElementById('fpwrap-' + i);
+    const floading = document.getElementById('floading-' + i);
+    const fdone    = document.getElementById('fdone-' + i);
+
+    // Cambiar ícono a check verde
+    ficon.textContent = 'check_circle';
+    ficon.classList.remove('loading');
+    ficon.classList.add('done');
+
+    // Ocultar barra y texto loading, mostrar "Archivo cargado"
+    fpwrap.style.display   = 'none';
+    floading.style.display = 'none';
+    fdone.style.display    = 'block';
+
+    updateContinue();
+  }
+
+  function removeFile(i) {
+    uploaded[i] = false;
+
+    const drop    = document.getElementById('drop-' + i);
+    const frow    = document.getElementById('frow-' + i);
+    const ficon   = document.getElementById('ficon-' + i);
+    const fpwrap  = document.getElementById('fpwrap-' + i);
+    const fpbar   = document.getElementById('fpbar-' + i);
+    const floading= document.getElementById('floading-' + i);
+    const fdone   = document.getElementById('fdone-' + i);
+    const input   = document.getElementById('file-' + i);
+
+    // Reset drop area
+    clearError(i);
+    drop.classList.remove('has-file');
+    drop.querySelector('.drop-hint').style.display = '';
+    drop.querySelector('.btn-upload').style.display = '';
+    frow.classList.remove('visible');
+
+    // Reset fila de archivo
+    ficon.textContent = 'insert_drive_file';
+    ficon.classList.remove('done');
+    ficon.classList.add('loading');
+    fpwrap.style.display   = '';
+    fpbar.style.width      = '0%';
+    floading.style.display = '';
+    fdone.style.display    = 'none';
+    input.value = '';
+
+    updateContinue();
+  }
+
+  const MAX_MB = 50;
+  const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
+  const ALLOWED_EXT   = /\.(pdf|jpg|jpeg|png)$/i;
+
+  function sizeStr(file) {
+    const mb = file.size / (1024 * 1024);
+    return mb >= 1 ? mb.toFixed(1) + ' MB' : Math.round(file.size / 1024) + ' KB';
+  }
+
+  function showError(i, msg) {
+    document.getElementById('drop-' + i).classList.add('error');
+    document.getElementById('ferror-text-' + i).textContent = msg;
+    document.getElementById('ferror-' + i).classList.add('visible');
+  }
+
+  function clearError(i) {
+    document.getElementById('drop-' + i).classList.remove('error');
+    document.getElementById('ferror-' + i).classList.remove('visible');
+  }
+
+  function validateFile(file, i) {
+    const isValidFormat = ALLOWED_TYPES.includes(file.type) || ALLOWED_EXT.test(file.name);
+    if (!isValidFormat) {
+      showError(i, 'El formato del archivo debe ser PDF, JPG o PNG.');
+      return false;
+    }
+    if (file.size / (1024 * 1024) > MAX_MB) {
+      showError(i, 'El archivo supera el tamaño máximo. Subí un documento de hasta 50 MB.');
+      return false;
+    }
+    return true;
+  }
+
+  function onFileSelect(e, i) {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!validateFile(file, i)) return;
+    clearError(i);
+    startUpload(i, file.name);
+  }
+
+  /* Drag & drop */
+  function onDragOver(e, i) {
+    e.preventDefault();
+    if (!uploaded[i]) document.getElementById('drop-' + i).classList.add('dragover');
+  }
+
+  function onDragLeave(i) {
+    document.getElementById('drop-' + i).classList.remove('dragover');
+  }
+
+  function onDrop(e, i) {
+    e.preventDefault();
+    onDragLeave(i);
+    if (uploaded[i]) return;
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    if (!validateFile(file, i)) return;
+    clearError(i);
+    startUpload(i, file.name);
+  }
+
+  function updateContinue() {
+    const btn = document.getElementById('btn-continue');
+    btn.classList.toggle('active', uploaded.every(Boolean));
+  }
+
+  function continuar() {
+    if (!uploaded.every(Boolean)) return;
+    window.location.href = 'paso4.html';
+  }
+</script>
+</body>
+</html>

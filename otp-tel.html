@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Validación de teléfono | FID by Lakaut</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    :root {
+      --blue:        #2A39D0;
+      --text-dark:   #0b0c0e;
+      --text-main:   #3b3a45;
+      --text-sub:    #575768;
+      --text-ph:     #898999;
+      --border:      #e1e1eb;
+      --border-card: #dee2e6;
+      --border-hdr:  #f2f2f8;
+      --bg-page:     #f8f9fa;
+      --otp-border:  #d0d3df;
+      --otp-error:   #ef4444;
+      --otp-size:    72px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+    }
+
+    .icon {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      white-space: nowrap;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* ─── PAGE ───────────────────────────────────────── */
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-page);
+    }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    .header {
+      height: 80px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-hdr);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo { width: 46px; height: 32px; object-fit: contain; flex-shrink: 0; }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-main);
+    }
+
+    .icon-btn .icon { font-size: 20px; }
+
+    .header-title {
+      flex: 1;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--text-main);
+    }
+
+    /* ─── CONTENT ────────────────────────────────────── */
+    .content-area {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ─── CARD ───────────────────────────────────────── */
+    .main-card {
+      width: 600px;
+      background: #fff;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Title */
+    .title-section { display: flex; flex-direction: column; gap: 8px; }
+
+    .card-title {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      color: var(--text-dark);
+    }
+
+    .card-subtitle {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-sub);
+      letter-spacing: 0.1px;
+    }
+
+    .subtitle-link {
+      font-weight: 600;
+      color: var(--blue);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .subtitle-link:hover { text-decoration: underline; }
+
+    /* ─── OTP BODY ───────────────────────────────────── */
+    .otp-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ─── OTP GRID ───────────────────────────────────── */
+    .otp-grid {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .otp-cell {
+      width: var(--otp-size);
+      height: var(--otp-size);
+      background: #fff;
+      border: 1.5px solid var(--otp-border);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-dark);
+      text-align: center;
+      outline: none;
+      caret-color: var(--blue);
+      transition: border-color .15s, box-shadow .15s;
+      /* Ocultar el caret real, mostramos cursor custom */
+    }
+
+    .otp-cell:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(42, 57, 208, 0.12);
+    }
+
+    /* Estado error */
+    .otp-grid.error .otp-cell {
+      border-color: var(--otp-error);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10);
+    }
+
+    .otp-grid.error .otp-cell:focus {
+      border-color: var(--otp-error);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+
+    /* ─── MENSAJES BAJO EL GRID ──────────────────────── */
+    .otp-messages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-height: 36px;
+    }
+
+    .otp-helper {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-ph);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .otp-helper.visible { opacity: 1; }
+
+    .otp-timer {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-ph);
+    }
+
+    .otp-timer.expired { color: var(--otp-error); }
+
+    .otp-error-msg {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--otp-error);
+    }
+
+    .otp-error-msg.visible { display: flex; }
+    .otp-error-msg .icon { font-size: 16px; }
+
+    /* ─── BOTONES ─────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .btn-resend {
+      flex: 1;
+      height: 48px;
+      background: #fff;
+      border: 1px solid #e1e1e6;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      transition: background .15s, border-color .15s, opacity .15s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .btn-resend.active {
+      opacity: 1;
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .btn-resend.active:hover { background: #f5f5f7; }
+
+    .btn-resend span {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #494949;
+    }
+
+    .btn-continue {
+      flex: 1;
+      height: 48px;
+      background: #e1e1e6;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      pointer-events: none;
+      transition: background .15s;
+    }
+
+    .btn-continue.active {
+      background: var(--blue);
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .btn-continue.active:hover { opacity: .9; }
+
+    .btn-continue span {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #939393;
+    }
+
+    .btn-continue.active span { color: #fff; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <img class="header-logo"
+         src="https://www.figma.com/api/mcp/asset/f419695b-9c40-4cf1-8c13-87318dc06d4c"
+         alt="FID by Lakaut"
+         width="55" height="38" />
+    <button class="icon-btn" onclick="history.back()" aria-label="Volver">
+      <span class="icon">arrow_back</span>
+    </button>
+    <span class="header-title">Validación de teléfono</span>
+    <button class="icon-btn" aria-label="Cerrar">
+      <span class="icon">close</span>
+    </button>
+  </header>
+
+  <!-- ── CONTENT ── -->
+  <main class="content-area">
+    <div class="main-card">
+
+      <!-- Título -->
+      <div class="title-section">
+        <h2 class="card-title">Validá tu número de teléfono</h2>
+        <p class="card-subtitle">
+          Ingresá el código que enviamos al <strong>+54 11 4495-5678</strong>.
+          <a class="subtitle-link" href="#" style="text-decoration:underline">Modificar número.</a>
+        </p>
+      </div>
+
+      <!-- OTP + mensajes + botones -->
+      <div class="otp-body">
+
+        <!-- Grid de 6 celdas -->
+        <div class="otp-grid" id="otp-grid">
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" />
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" />
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" />
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" />
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" />
+          <input class="otp-cell" type="text" inputmode="numeric" maxlength="1" />
+        </div>
+
+        <!-- Mensajes -->
+        <div class="otp-messages">
+          <span class="otp-helper" id="otp-helper">Ingresá solo números (0-9)</span>
+          <span class="otp-timer" id="otp-timer">El código vence en 2:00</span>
+          <span class="otp-error-msg" id="otp-error">
+            <span class="icon">error</span>
+            El código ingresado es incorrecto. Volver a enviar.
+          </span>
+        </div>
+
+        <!-- Botones -->
+        <div class="btn-row">
+          <button class="btn-resend" id="btn-resend" onclick="reenviarCodigo()">
+            <span>Reenviar código</span>
+          </button>
+          <button class="btn-continue" id="btn-continue" onclick="continuar()">
+            <span>Continuar</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  /* ── Referencias ────────────────────────────────── */
+  const grid      = document.getElementById('otp-grid');
+  const cells     = Array.from(grid.querySelectorAll('.otp-cell'));
+  const helper    = document.getElementById('otp-helper');
+  const timerEl   = document.getElementById('otp-timer');
+  const errorEl   = document.getElementById('otp-error');
+  const btnResend = document.getElementById('btn-resend');
+  const btnCont   = document.getElementById('btn-continue');
+
+  /* ── Timer ──────────────────────────────────────── */
+  let seconds = 120;
+  let timerInterval;
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    seconds = 120;
+    timerEl.classList.remove('expired');
+    btnResend.classList.remove('active');
+
+    timerInterval = setInterval(() => {
+      seconds--;
+      const m = Math.floor(seconds / 60);
+      const s = String(seconds % 60).padStart(2, '0');
+      timerEl.textContent = `El código vence en ${m}:${s}`;
+
+      if (seconds <= 0) {
+        clearInterval(timerInterval);
+        timerEl.textContent = 'El código ha vencido.';
+        timerEl.classList.add('expired');
+        btnResend.classList.add('active');
+      }
+    }, 1000);
+  }
+
+  startTimer();
+
+  /* ── Estado ─────────────────────────────────────── */
+  function getValue() {
+    return cells.map(c => c.value).join('');
+  }
+
+  function setError(show) {
+    grid.classList.toggle('error', show);
+    errorEl.classList.toggle('visible', show);
+    timerEl.style.display = show ? 'none' : '';
+  }
+
+  function updateButtons() {
+    const full = getValue().length === 6 && !grid.classList.contains('error');
+    btnCont.classList.toggle('active', full);
+  }
+
+  /* ── Comportamiento de celdas ────────────────────── */
+  cells.forEach((cell, i) => {
+
+    // Mostrar helper al enfocar cualquier celda
+    cell.addEventListener('focus', () => {
+      helper.classList.add('visible');
+      // Limpiar error si existe y el usuario vuelve a tipear
+    });
+
+    cell.addEventListener('blur', () => {
+      if (cells.every(c => c !== document.activeElement)) {
+        helper.classList.remove('visible');
+      }
+    });
+
+    cell.addEventListener('input', (e) => {
+      // Limpiar error al volver a tipear
+      if (grid.classList.contains('error')) {
+        setError(false);
+        timerEl.style.display = '';
+      }
+
+      const val = e.target.value.replace(/\D/g, '');
+      cell.value = val ? val[val.length - 1] : '';
+
+      if (cell.value && i < cells.length - 1) {
+        cells[i + 1].focus();
+      }
+
+      updateButtons();
+    });
+
+    cell.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace') {
+        if (cell.value) {
+          cell.value = '';
+        } else if (i > 0) {
+          cells[i - 1].focus();
+          cells[i - 1].value = '';
+        }
+        // Limpiar error
+        if (grid.classList.contains('error')) {
+          setError(false);
+          timerEl.style.display = '';
+        }
+        updateButtons();
+      }
+
+      if (e.key === 'ArrowLeft' && i > 0)  { e.preventDefault(); cells[i - 1].focus(); }
+      if (e.key === 'ArrowRight' && i < cells.length - 1) { e.preventDefault(); cells[i + 1].focus(); }
+    });
+
+    // Pegar código completo
+    cell.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData)
+                       .getData('text')
+                       .replace(/\D/g, '')
+                       .slice(0, 6);
+      pasted.split('').forEach((digit, j) => {
+        if (cells[j]) cells[j].value = digit;
+      });
+      const nextEmpty = cells.findIndex(c => !c.value);
+      (nextEmpty >= 0 ? cells[nextEmpty] : cells[cells.length - 1]).focus();
+
+      if (grid.classList.contains('error')) { setError(false); timerEl.style.display = ''; }
+      updateButtons();
+    });
+
+    // Seleccionar contenido al hacer foco (para sobreescribir fácilmente)
+    cell.addEventListener('click', () => cell.select());
+  });
+
+  /* ── Reenviar código ─────────────────────────────── */
+  function reenviarCodigo() {
+    cells.forEach(c => c.value = '');
+    setError(false);
+    timerEl.style.display = '';
+    updateButtons();
+    startTimer();
+    cells[0].focus();
+  }
+
+  /* ── Continuar ───────────────────────────────────── */
+  function continuar() {
+    const code = getValue();
+    if (code.length < 6) return;
+
+    // Simular código incorrecto si es "000000"
+    if (code === '000000') {
+      setError(true);
+      updateButtons();
+      return;
+    }
+
+    // Código correcto → avanzar
+    window.location.href = 'paso3.html';
+  }
+</script>
+</body>
+</html>

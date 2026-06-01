@@ -195,46 +195,101 @@
       letter-spacing: 0.1px;
     }
 
-    .input-wrap {
+    /* ─── INPUT BASE — todos los campos ─────────────────── */
+    .input-wrap,
+    .pass-input-wrap {
       display: flex;
       align-items: center;
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 8px;
-      padding: 14px 16px;
+      height: 48px;
+      padding: 0 14px;
       gap: 8px;
-      min-height: 56px;
+      transition: border-color .15s;
     }
 
-    .input-wrap input {
+    /* Focus: borde azul cuando el input dentro está activo */
+    .input-wrap:focus-within,
+    .pass-input-wrap:focus-within {
+      border-color: var(--blue);
+    }
+
+    .input-wrap input,
+    .pass-input-wrap input {
       flex: 1;
       min-width: 0;
-      font-family: 'Open Sans', sans-serif;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
       font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      color: var(--text-ph);
+      font-size: 15px;
+      color: var(--text-main);
       border: none;
       outline: none;
       background: transparent;
     }
 
-    .input-wrap input::placeholder { color: var(--text-ph); }
+    .input-wrap input::placeholder,
+    .pass-input-wrap input::placeholder { color: var(--text-ph); }
+
+    /* Dropdown simulado */
+    .input-wrap.select-wrap { cursor: pointer; }
+    .input-select {
+      flex: 1;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--text-ph);
+      pointer-events: none;
+    }
+    .input-select.selected { color: var(--text-main); }
 
     .input-icon {
       color: #c0c0cc;
       font-size: 20px;
       flex-shrink: 0;
+      pointer-events: none;
     }
 
-    .input-select {
-      flex: 1;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      color: var(--text-sub);
+    /* Eye button — password */
+    .eye-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: #aaa;
+      cursor: pointer;
+      padding: 0;
+      margin-right: -4px;
     }
+
+    .eye-btn .icon { font-size: 20px; }
+
+    /* Select nativo — mismo aspecto que input */
+    .field-select {
+      flex: 1;
+      width: 100%;
+      height: 46px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--text-ph);
+      background: transparent;
+      border: none;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23c0c0cc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    .field-select:focus { color: var(--text-main); }
+    .field-select option { color: var(--text-main); }
 
     .field-helper {
       font-weight: 400;
@@ -244,52 +299,17 @@
       letter-spacing: 0.1px;
     }
 
-    /* ─── PASSWORD FIELD ─────────────────────────────── */
+    /* ─── PASSWORD LABEL (igual a field-label) ───────────── */
     .pass-label {
-      font-weight: 600;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
       font-size: 14px;
-      line-height: 26px;
-      color: #222;
+      line-height: 20px;
+      color: var(--text-main);
+      letter-spacing: 0.1px;
     }
 
-    .pass-input-wrap {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      border: 1px solid #dfdfdf;
-      border-radius: 8px;
-      height: 48px;
-      padding-left: 12px;
-      gap: 8px;
-    }
-
-    .pass-input-wrap input {
-      flex: 1;
-      min-width: 0;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 26px;
-      color: #c8ccdd;
-      border: none;
-      outline: none;
-      background: transparent;
-    }
-
-    .pass-input-wrap input::placeholder { color: #c8ccdd; }
-
-    .eye-btn {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: #aaa;
-    }
-
-    .eye-btn .icon { font-size: 20px; }
-
+    /* ─── PASSWORD REQUIREMENTS ─────────────────────────── */
     .pass-helper-title {
       font-weight: 400;
       font-size: 12px;
@@ -297,30 +317,22 @@
       color: #505050;
     }
 
-    .pass-requirements {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding-top: 4px;
-    }
+    .pass-requirements { display: flex; flex-direction: column; gap: 6px; padding-top: 2px; }
 
-    .req-item {
+    .pw-req {
       display: flex;
       align-items: center;
       gap: 6px;
-    }
-
-    .req-dot .icon {
-      font-size: 10px;
-      color: #aaa;
-    }
-
-    .req-text {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 18px;
+      font-size: 13px;
       color: #505050;
     }
+
+    /* Ícono: dot por defecto, check cuando cumple */
+    .pw-req .icon-dot   { display: inline-block; flex-shrink: 0; }
+    .pw-req .icon-check { display: none;         flex-shrink: 0; }
+
+    .pw-req.ok .icon-dot   { display: none; }
+    .pw-req.ok .icon-check { display: inline-block; }
 
     /* ─── TERMS ──────────────────────────────────────── */
     .tyc-row {
@@ -342,9 +354,26 @@
     .tyc-checkbox-inner {
       width: 20px;
       height: 20px;
-      border: 1px solid #adb5bd;
+      border: 1.5px solid #adb5bd;
       border-radius: 6px;
       background: #fff;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Estado ON */
+    .tyc-checkbox.on .tyc-checkbox-inner {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .tyc-checkbox.on .tyc-checkbox-inner::after {
+      content: '';
+      width: 11px;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L4.5 7.5L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
     }
 
     .tyc-text {
@@ -368,12 +397,14 @@
       width: 256px;
       height: 48px;
       background: #e1e1e6;
+      border: none;
       border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 12px 16px;
       cursor: not-allowed;
+      transition: background .15s;
     }
 
     .btn-submit span {
@@ -382,7 +413,16 @@
       font-size: 16px;
       line-height: 24px;
       color: #939393;
+      transition: color .15s;
     }
+
+    /* Estado activo */
+    .btn-submit.active {
+      background: var(--blue);
+      cursor: pointer;
+    }
+    .btn-submit.active span { color: #fff; }
+    .btn-submit.active:hover { opacity: .9; }
 
     /* ─── SIDEBAR ─────────────────────────────────────── */
     .sidebar {
@@ -589,9 +629,13 @@
               </div>
               <div class="field">
                 <label class="field-label">Género</label>
-                <div class="input-wrap">
-                  <span class="input-select">Seleccionar</span>
-                  <span class="icon input-icon">expand_more</span>
+                <div class="input-wrap" style="padding:0">
+                  <select class="field-select">
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                    <option>No binario</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -600,24 +644,27 @@
               <div class="field">
                 <label class="pass-label">Contraseña de la cuenta</label>
                 <div class="pass-input-wrap">
-                  <input type="password" placeholder="Ingresa tu contraseña" />
+                  <input type="password" id="pw1" placeholder="Ingresa tu contraseña" oninput="checkPwReqs()" />
                   <button class="eye-btn" aria-label="Mostrar contraseña">
                     <span class="icon">visibility_off</span>
                   </button>
                 </div>
                 <p class="pass-helper-title">Tu clave debe contener:</p>
                 <div class="pass-requirements">
-                  <div class="req-item">
-                    <span class="req-dot"><span class="icon">fiber_manual_record</span></span>
-                    <span class="req-text">Entre 8 y 20 caracteres.</span>
+                  <div class="pw-req" id="req-len">
+                    <img class="icon-dot"   src="assets/icons/dot-outline.svg" width="20" height="20" alt="">
+                    <img class="icon-check" src="assets/icons/check-req.svg"   width="20" height="20" alt="">
+                    Entre 8 y 20 caracteres.
                   </div>
-                  <div class="req-item">
-                    <span class="req-dot"><span class="icon">fiber_manual_record</span></span>
-                    <span class="req-text">Al menos una mayúscula y una minúscula.</span>
+                  <div class="pw-req" id="req-case">
+                    <img class="icon-dot"   src="assets/icons/dot-outline.svg" width="20" height="20" alt="">
+                    <img class="icon-check" src="assets/icons/check-req.svg"   width="20" height="20" alt="">
+                    Al menos una mayúscula y una minúscula.
                   </div>
-                  <div class="req-item">
-                    <span class="req-dot"><span class="icon">fiber_manual_record</span></span>
-                    <span class="req-text">Un número o un símbolo (ej. ! o *).</span>
+                  <div class="pw-req" id="req-sym">
+                    <img class="icon-dot"   src="assets/icons/dot-outline.svg" width="20" height="20" alt="">
+                    <img class="icon-check" src="assets/icons/check-req.svg"   width="20" height="20" alt="">
+                    Un número o un símbolo (ej. ! o *).
                   </div>
                 </div>
               </div>
@@ -643,9 +690,15 @@
             <div class="form-row">
               <div class="field">
                 <label class="field-label">Cargo del titular</label>
-                <div class="input-wrap">
-                  <span class="input-select">Seleccionar cargo</span>
-                  <span class="icon input-icon">expand_more</span>
+                <div class="input-wrap" style="padding:0">
+                  <select class="field-select">
+                    <option value="" disabled selected>Seleccionar cargo</option>
+                    <option>CEO / Director General</option>
+                    <option>Director</option>
+                    <option>Gerente</option>
+                    <option>Responsable de área</option>
+                    <option>Otro</option>
+                  </select>
                 </div>
               </div>
               <div class="field">
@@ -665,9 +718,15 @@
               </div>
               <div class="field">
                 <label class="field-label">Tipo de sociedad</label>
-                <div class="input-wrap">
-                  <span class="input-select">Seleccionar sociedad</span>
-                  <span class="icon input-icon">expand_more</span>
+                <div class="input-wrap" style="padding:0">
+                  <select class="field-select">
+                    <option value="" disabled selected>Seleccionar sociedad</option>
+                    <option>S.A.</option>
+                    <option>S.R.L.</option>
+                    <option>S.A.S.</option>
+                    <option>Cooperativa</option>
+                    <option>Otra</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -703,7 +762,7 @@
 
         <!-- Botón Continuar (deshabilitado) -->
         <div class="submit-row">
-          <button class="btn-submit" disabled>
+          <button class="btn-submit" disabled onclick="window.location.href='paso2.html'">
             <span>Continuar</span>
           </button>
         </div>
@@ -775,5 +834,47 @@
 
 </div><!-- /page -->
 
+<script>
+  // Eye toggle — mostrar/ocultar contraseña
+  document.querySelectorAll('.eye-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const wrap = btn.closest('.pass-input-wrap');
+      const input = wrap.querySelector('input');
+      const icon  = btn.querySelector('.icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
+      }
+    });
+  });
+
+  // Checkbox TyC → activa el botón Continuar
+  const tycBtn = document.querySelector('.tyc-checkbox');
+  const submitBtn = document.querySelector('.btn-submit');
+
+  tycBtn.addEventListener('click', () => {
+    tycBtn.classList.toggle('on');
+    const checked = tycBtn.classList.contains('on');
+    submitBtn.classList.toggle('active', checked);
+    submitBtn.disabled = !checked;
+  });
+
+  // Validación de requisitos de contraseña
+  function checkPwReqs() {
+    const pw = document.getElementById('pw1').value;
+    setReq('req-len',  pw.length >= 8 && pw.length <= 20);
+    setReq('req-case', /[a-z]/.test(pw) && /[A-Z]/.test(pw));
+    setReq('req-sym',  /[\d!@#$%^&*()_\-+=.,:;?]/.test(pw));
+  }
+
+  function setReq(id, ok) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('ok', ok);
+  }
+</script>
 </body>
 </html>
