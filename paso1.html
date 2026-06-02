@@ -18,7 +18,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* Mismo split que .page para que si el contenido desborda no haya seam */
+      height: 100vh;
+      overflow: hidden;
       background: linear-gradient(to right,
         var(--bg-page)    calc(50vw + 236px),
         var(--bg-sidebar) calc(50vw + 236px)
@@ -27,8 +28,12 @@
 
     /* ─── PAGE WRAPPER — override split background ───── */
     .page {
-      /* Split background: form-area color izq | sidebar color der        */
-      /* form-area=956px, layout centrado 1440px → split = 50vw + 236px  */
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      overflow: hidden;
       background: linear-gradient(to right,
         var(--bg-page)    calc(50vw + 236px),
         var(--bg-sidebar) calc(50vw + 236px)
