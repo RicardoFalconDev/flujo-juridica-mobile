@@ -6,27 +6,13 @@
   <title>Iniciar sesión | FID by Lakaut</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/buttons.css" />
+  <link rel="stylesheet" href="assets/css/inputs.css" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    img { display: block; }
-    button { cursor: pointer; font-family: inherit; border: none; background: none; }
-
-    :root {
-      --blue:      #2A39D0;
-      --text-dark: #333333;
-      --text-main: #3b3a45;
-      --text-sub:  #6c757d;
-      --text-ph:   #898999;
-      --border:    #e1e1eb;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Inter', sans-serif;
-    }
-
     body {
       min-height: 100vh;
       display: flex;
@@ -35,20 +21,6 @@
       background:
         linear-gradient(rgba(42,57,208,0.6), rgba(42,57,208,0.6)),
         url('assets/images/bg-login.jpg') center / cover no-repeat;
-    }
-
-    /* Material Symbols */
-    .icon {
-      font-family: 'Material Symbols Outlined';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 24px;
-      line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
-      white-space: nowrap;
-      -webkit-font-smoothing: antialiased;
-      user-select: none;
     }
 
     /* ─── CARD ─────────────────────────────────────────── */
@@ -103,59 +75,6 @@
       gap: 24px;
     }
 
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field-label {
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.1px;
-      color: var(--text-main);
-    }
-
-    .input-wrap {
-      height: 48px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 8px;
-      background: #fff;
-      transition: border-color .15s;
-    }
-
-    .input-wrap:focus-within {
-      border-color: var(--blue);
-    }
-
-    .input-wrap input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      line-height: 24px;
-      color: var(--text-dark);
-      background: transparent;
-    }
-
-    .input-wrap input::placeholder {
-      color: var(--text-ph);
-    }
-
-    .eye-btn {
-      display: flex;
-      align-items: center;
-      color: var(--text-sub);
-      padding: 0;
-    }
-
     /* ─── BOTONES ───────────────────────────────────────── */
     .btn-area {
       display: flex;
@@ -163,51 +82,15 @@
       gap: 16px;
     }
 
-    .btn-primary {
+    .btn-primary,
+    .btn-submit {
       width: 100%;
-      height: 48px;
-      background: #e1e1e6;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 16px;
       cursor: not-allowed;
-      transition: background .15s;
     }
 
-    .btn-primary span {
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
-      color: #939393;
-      transition: color .15s;
-    }
+    .btn-primary.active { cursor: pointer; }
 
-    .btn-primary.active {
-      background: var(--blue);
-      cursor: pointer;
-    }
-
-    .btn-primary.active span { color: #fff; }
-    .btn-primary.active:hover { opacity: .9; }
-
-    .btn-ghost {
-      width: 100%;
-      height: 48px;
-      color: var(--blue);
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      transition: background .15s;
-    }
-
-    .btn-ghost:hover { background: rgba(42,57,208,.06); }
+    .btn-ghost { width: 100%; }
 
     /* ─── PIE ───────────────────────────────────────────── */
     .card-footer {
