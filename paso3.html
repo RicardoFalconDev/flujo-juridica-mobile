@@ -169,13 +169,15 @@
       background: var(--bg-drop);
       border: 1px dashed var(--border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: 8px;
       transition: border-color .2s, background .2s;
       cursor: default;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .drop-area.dragover {
@@ -184,13 +186,11 @@
       border-style: solid;
     }
 
-    /* Drop area con archivo (loading o loaded): borde sólido, fondo blanco, alineación fila */
+    /* Drop area con archivo (loading o loaded): borde sólido, fondo blanco */
     .drop-area.has-file {
       border-style: solid;
       border-color: var(--border);
       background: #fff;
-      align-items: stretch;
-      padding: 16px;
     }
 
     .drop-hint {
@@ -214,6 +214,7 @@
       padding: 8px 12px;
       cursor: pointer;
       transition: background .15s;
+      align-self: center;
     }
 
     .btn-upload:hover { background: #f5f5f7; }
@@ -240,9 +241,18 @@
     .file-row.visible { display: flex; }
 
     /* Ícono izquierdo (file o check) */
-    .file-row-icon { flex-shrink: 0; font-size: 20px; }
-    .file-row-icon.loading { color: #aab0c0; }
-    .file-row-icon.done    { color: #22c55e; }
+    .file-row-icon { flex-shrink: 0; }
+    .file-row-icon.loading { font-size: 20px; color: #aab0c0; }
+    .file-row-icon.done {
+      width: 40px;
+      height: 40px;
+      background: #f1fff8;
+      border: 1px solid #ace1c6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     /* Info central */
     .file-row-info {
@@ -289,7 +299,7 @@
     /* Texto "Archivo cargado" (solo en loaded) */
     .file-done-text {
       font-size: 12px;
-      color: #22c55e;
+      color: var(--text-ph);
       line-height: 16px;
       display: none;
     }
@@ -604,10 +614,10 @@
     const floading = document.getElementById('floading-' + i);
     const fdone    = document.getElementById('fdone-' + i);
 
-    // Cambiar ícono a check verde
-    ficon.textContent = 'check_circle';
-    ficon.classList.remove('loading');
+    // Cambiar ícono a círculo verde con check
+    ficon.classList.remove('icon', 'loading');
     ficon.classList.add('done');
+    ficon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12.5L9.5 17L19 8" stroke="#108F50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
     // Ocultar barra y texto loading, mostrar "Archivo cargado"
     fpwrap.style.display   = 'none';
@@ -637,9 +647,9 @@
     frow.classList.remove('visible');
 
     // Reset fila de archivo
-    ficon.textContent = 'insert_drive_file';
+    ficon.innerHTML = 'insert_drive_file';
     ficon.classList.remove('done');
-    ficon.classList.add('loading');
+    ficon.classList.add('icon', 'loading');
     fpwrap.style.display   = '';
     fpbar.style.width      = '0%';
     floading.style.display = '';
