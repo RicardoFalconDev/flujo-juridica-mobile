@@ -125,6 +125,15 @@
     }
     .input-select.selected { color: var(--text-main); }
 
+    /* ─── PHONE FLAG ─────────────────────────────────────── */
+    .phone-flag {
+      font-size: 20px;
+      line-height: 1;
+      flex-shrink: 0;
+      padding-left: 4px;
+      user-select: none;
+    }
+
     /* ─── PASSWORD LABEL (igual a field-label) ───────────── */
     .pass-label {
       font-family: 'Open Sans', sans-serif;
@@ -429,9 +438,10 @@
               <div class="field">
                 <label class="field-label">Número de teléfono</label>
                 <div class="input-wrap">
-                  <input type="tel" placeholder="11 123345678" />
+                  <span class="phone-flag">🇦🇷</span>
+                  <input type="tel" placeholder="11 1234 5678" />
                 </div>
-                <span class="field-helper">Código de área + número</span>
+                <span class="field-helper">Código de área + número, sin el 9 ni el 15.</span>
               </div>
             </div>
 
