@@ -155,9 +155,14 @@
     }
     .doc-type-wrap:focus-within { border-color: var(--blue); }
 
+    /* doc-type-wrap provee el border: el select interno no necesita el propio */
     .doc-type-wrap .field-select {
       height: 46px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
       color: var(--text-main);
+      padding: 0 28px 0 14px;
     }
 
     .doc-num-wrap {
@@ -341,20 +346,36 @@
     }
     /* ─── Pantallas < 1280px ──────────────────────────────── */
     @media (max-width: 1439px) {
-      .form-area {
-        flex: 1 1 0%;
-        width: auto;
-        min-width: 0;
-      }
-      .form-content {
-        width: calc(100% - 64px);
-        max-width: 656px;
-      }
+      .form-area { flex: 1 1 0%; width: auto; min-width: 0; }
+      .form-content { width: calc(100% - 64px); max-width: 656px; }
+      .sidebar { flex: 0 0 420px; width: 420px; padding: 54px 40px 64px; }
+    }
+
+    @media (max-width: 768px) {
+      body, .page { height: auto; overflow: auto; background: var(--bg-page); }
+      .layout { flex-direction: column; height: auto; overflow: visible; max-width: 100%; }
+      .form-area { width: 100%; padding: 24px 16px; height: auto; overflow: visible; }
+      .form-content { width: 100%; }
+      .form-rows { gap: 24px; }
+      .form-row { flex-direction: column; gap: 16px; align-items: stretch; }
+      .doc-input-row { flex-direction: row; }
+
       .sidebar {
-        flex: 0 0 420px;
-        width: 420px;
-        padding: 54px 40px 64px;
+        flex: none; width: 100%; height: auto; padding: 0; overflow: visible;
+        order: -1; background: #fff; border-bottom: 1px solid var(--border-hdr);
       }
+      .sidebar-toggle {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; padding: 16px; background: none; border: none; cursor: pointer;
+        font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 14px; color: var(--text-dark);
+      }
+      .sidebar-toggle .icon { font-size: 20px; color: var(--text-sub); transition: transform .2s; }
+      .sidebar.open .sidebar-toggle .icon { transform: rotate(180deg); }
+      .sidebar-body { display: none; padding: 0 16px 20px; flex-direction: column; gap: 16px; }
+      .sidebar.open .sidebar-body { display: flex; }
+
+      /* Botón pagar full-width en mobile */
+      .btn-submit { width: 100%; }
     }
   </style>
 </head>
@@ -397,7 +418,7 @@
             <div class="form-row">
               <div class="field">
                 <label class="field-label">Elegí el CUIT con el cual facturar</label>
-                <div class="input-wrap" style="padding:0">
+                <div class="sel-wrap">
                   <select class="field-select" id="cuit-select" onchange="this.classList.toggle('selected', this.value !== '')">
                     <option value="" disabled selected>Seleccionar</option>
                     <option>30-71234567-8 – Empresa S.A.</option>
@@ -447,7 +468,7 @@
             <div class="form-row">
               <div class="field">
                 <label class="field-label">Tipo de tarjeta</label>
-                <div class="input-wrap" style="padding:0">
+                <div class="sel-wrap">
                   <select class="field-select" id="tipo-tarjeta" onchange="this.classList.toggle('selected', this.value !== ''); checkForm()">
                     <option value="" disabled selected>Seleccionar</option>
                     <option>Crédito</option>
@@ -519,7 +540,12 @@
     </section>
 
     <!-- ── SIDEBAR ── -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" style="display:none">
+        <span>Detalles de la compra</span>
+        <span class="icon">expand_more</span>
+      </button>
+      <div class="sidebar-body">
 
       <div class="purchase-block">
         <h2 class="sidebar-heading">Detalles de la compra</h2>
@@ -564,6 +590,7 @@
         </p>
       </div>
 
+      </div><!-- /sidebar-body -->
     </aside>
 
   </div>
@@ -675,6 +702,18 @@
 
     window.location.href = 'pago-exitoso.html';
   }
+
+  /* ── Sidebar dropdown (mobile) ───────────────────── */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+  function initSidebarMobile() {
+    const toggle = document.querySelector('.sidebar-toggle');
+    if (window.innerWidth <= 768) toggle.style.display = 'flex';
+    else toggle.style.display = 'none';
+  }
+  initSidebarMobile();
+  window.addEventListener('resize', initSidebarMobile);
 </script>
 </body>
 </html>

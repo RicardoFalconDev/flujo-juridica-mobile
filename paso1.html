@@ -373,22 +373,97 @@
       line-height: 1.65;
       color: #818ea1;
     }
-    /* ─── Pantallas < 1280px ──────────────────────────────── */
+    /* ─── Pantallas < 1440px ──────────────────────────────── */
     @media (max-width: 1439px) {
+      .form-area { flex: 1 1 0%; width: auto; min-width: 0; }
+      .form-content { width: calc(100% - 64px); max-width: 656px; }
+      .sidebar { flex: 0 0 420px; width: 420px; padding: 58px 40px 86px; }
+    }
+
+    /* ─── Mobile ≤ 768px ─────────────────────────────────── */
+    @media (max-width: 768px) {
+      body, .page {
+        height: auto;
+        overflow: auto;
+        background: var(--bg-page);
+      }
+
+      .layout {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+        max-width: 100%;
+      }
+
       .form-area {
-        flex: 1 1 0%;
-        width: auto;
+        width: 100%;
+        padding: 24px 16px;
+        height: auto;
+        overflow-x: hidden;
+        align-items: stretch;
+      }
+
+      .form-content {
+        width: 100%;
+        max-width: 100%;
         min-width: 0;
       }
-      .form-content {
-        width: calc(100% - 64px);
-        max-width: 656px;
-      }
+
+      .form-rows { gap: 24px; }
+      .form-row { flex-direction: column; gap: 16px; align-items: stretch; }
+
+      /* Cards: reducir padding para coincidir con Figma (296px inputs en 360px frame) */
+      .card { padding: 16px; gap: 20px; }
+
+      /* El título largo no aparece en mobile (el header ya lo comunica) */
+      .page-title { display: none; }
+
+      /* Sidebar → dropdown colapsable */
       .sidebar {
-        flex: 0 0 420px;
-        width: 420px;
-        padding: 58px 40px 86px;
+        flex: none;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        overflow: visible;
+        order: -1; /* aparece arriba del form */
+        background: var(--bg-page);
+        border-bottom: 1px solid var(--border-hdr);
       }
+
+      .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-dark);
+      }
+
+      .sidebar-toggle .icon { font-size: 20px; color: var(--text-sub); transition: transform .2s; }
+      .sidebar.open .sidebar-toggle .icon { transform: rotate(180deg); }
+
+      .sidebar-body {
+        display: none;
+        padding: 0 16px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .sidebar.open .sidebar-body { display: flex; }
+
+      .sidebar-section, .price-card { all: unset; display: block; }
+
+      /* Pass section headers heredados */
+      .sidebar-heading { font-size: 13px; margin-bottom: 12px; display: block; }
+      .price-row-inner { display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+      /* Botón submit full-width en mobile */
+      .btn-submit { width: 100%; }
     }
   </style>
 </head>
@@ -454,7 +529,7 @@
               </div>
               <div class="field">
                 <label class="field-label">Género</label>
-                <div class="input-wrap" style="padding:0">
+                <div class="sel-wrap">
                   <select class="field-select">
                     <option value="" disabled selected>Seleccionar</option>
                     <option>Masculino</option>
@@ -515,7 +590,7 @@
             <div class="form-row">
               <div class="field">
                 <label class="field-label">Cargo del titular</label>
-                <div class="input-wrap" style="padding:0">
+                <div class="sel-wrap">
                   <select class="field-select">
                     <option value="" disabled selected>Seleccionar cargo</option>
                     <option>CEO / Director General</option>
@@ -537,7 +612,7 @@
             <div class="form-row">
               <div class="field">
                 <label class="field-label">Tipo de sociedad</label>
-                <div class="input-wrap" style="padding:0">
+                <div class="sel-wrap">
                   <select class="field-select">
                     <option value="" disabled selected>Seleccionar sociedad</option>
                     <option>S.A.</option>
@@ -596,7 +671,15 @@
     </section>
 
     <!-- ── SIDEBAR ── -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" style="display:none">
+        <span class="sidebar-toggle-label">Detalles del Plan</span>
+        <span class="sidebar-toggle-price">*$1.000.000</span>
+        <div class="sidebar-chevron-pill">
+          <span class="icon">expand_more</span>
+        </div>
+      </button>
+      <div class="sidebar-body">
 
       <div class="sidebar-section">
         <p class="sidebar-heading">Detalles del plan PyME</p>
@@ -653,6 +736,7 @@
         <p class="price-note">*Pueden aplicarse percepciones impositivas según condición fiscal</p>
       </div>
 
+      </div><!-- /sidebar-body -->
     </aside>
 
   </div>
@@ -700,6 +784,18 @@
     if (!el) return;
     el.classList.toggle('ok', ok);
   }
+
+  /* ── Sidebar dropdown (mobile) ───────────────────── */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+  function initSidebarMobile() {
+    const toggle = document.querySelector('.sidebar-toggle');
+    if (window.innerWidth <= 768) toggle.style.display = 'flex';
+    else toggle.style.display = 'none';
+  }
+  initSidebarMobile();
+  window.addEventListener('resize', initSidebarMobile);
 </script>
 </body>
 </html>

@@ -84,12 +84,12 @@
     .field-success img { width: 20px; height: 20px; flex-shrink: 0; }
 
     /* ─── BOTÓN CENTRADO ─────────────────────────────── */
-    .btn-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
+    .btn-wrap { display: flex; justify-content: center; }
     .btn-generar { width: 256px; }
+
+    @media (max-width: 480px) {
+      .btn-generar { width: 100%; }
+    }
   </style>
 </head>
 <body>

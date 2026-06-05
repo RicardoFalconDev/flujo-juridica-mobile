@@ -605,9 +605,13 @@
     /* ── Móvil — frame 360px de Figma ─────────────────── */
     @media (max-width: 600px) {
 
-      /* NAVBAR */
+      /* Prevenir scroll horizontal en mobile */
+      html, body { overflow-x: hidden; max-width: 100%; }
+
+      /* NAVBAR — solo logo + hamburger */
       .navbar-inner { padding: 15px 16px 16px; }
       .navbar-logo { width: 46px; height: 32px; }
+      .nav-links { display: none; }
 
       /* HERO */
       .hero { padding: 40px 20px; }
@@ -627,8 +631,22 @@
 
       /* TAB: full width, texto en 2 líneas */
       .tab-switcher { width: 100%; gap: 6.84px; padding: 6.84px; }
-      .tab-item { flex: 1; padding: 6.84px 10.26px; border-radius: 20.52px; }
-      .tab-item span { font-size: 11.7px; letter-spacing: -0.234px; white-space: normal; line-height: 1.35; }
+      .tab-item {
+        flex: 1;
+        padding: 6.84px 10.26px;
+        border-radius: 20.52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tab-item.active { border-radius: 999px; }
+      .tab-item span {
+        font-size: 11.7px;
+        letter-spacing: -0.234px;
+        white-space: normal;
+        line-height: 1.35;
+        text-align: center;
+      }
 
       /* CARDS */
       .cards-row { grid-template-columns: 320px; gap: 32px; justify-content: center; }
@@ -713,6 +731,7 @@
         width: calc(100% + 32px);
       }
     }
+
   </style>
 </head>
 <body>

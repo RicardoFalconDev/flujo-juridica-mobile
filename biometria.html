@@ -185,9 +185,11 @@
     }
 
     /* ─── BOTÓN ─────────────────────────────────────────── */
-    .btn-biometria {
-      width: 265px;
-      align-self: center;
+    .btn-biometria { width: 265px; align-self: center; }
+
+    @media (max-width: 480px) {
+      .bio-card { width: 100%; padding: 24px 16px; }
+      .btn-biometria { width: 100%; }
     }
   </style>
 </head>

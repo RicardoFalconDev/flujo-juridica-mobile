@@ -83,8 +83,12 @@
     }
 
     /* ─── BOTÓN ──────────────────────────────────────── */
-    .btn-continuar {
-      width: 265px;
+    .btn-continuar { width: 265px; }
+
+    @media (max-width: 480px) {
+      .success-card { width: 100%; height: auto; padding: 40px 16px; }
+      .success-content { width: 100%; }
+      .btn-continuar { width: 100%; }
     }
   </style>
 </head>
